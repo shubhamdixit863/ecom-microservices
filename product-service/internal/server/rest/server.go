@@ -28,10 +28,10 @@ func (s *Server) Start() {
 
 	// Define a simple GET endpoint
 	productRoutes.GET("/get-product", productHandler.GetProducts)
-
-	//productRoutes.POST("/create", func(c *gin.Context) { // /products/create
-	//
-	//})
+	productRoutes.POST("/create", productHandler.CreateProduct)
+	productRoutes.GET("/get-product-by-id", productHandler.GetProductByID)
+	productRoutes.PUT("/update", productHandler.UpdateProduct)
+	productRoutes.DELETE("/delete", productHandler.DeleteProduct)
 
 	// Start server on port 8080 (default)
 	// Server will listen on 0.0.0.0:8080 (localhost:8080 on Windows)
