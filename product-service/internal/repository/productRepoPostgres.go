@@ -12,12 +12,15 @@ type ProductRepositoryPostgres struct {
 
 func (p *ProductRepositoryPostgres) CreateProduct(product models.Product) (int, error) {
 	// We will write the sql query
-	_, err := p.db.DB.Exec("INSERT INTO products(name,price,description) VALUES ($1,$2,$3) RETURNING id", product.Name, product.Price, product.Description)
+
+	var id int
+	query := "INSERT INTO products (name, price, description) VALUES ($1, $2, $3) RETURNING id"
+	err := p.db.QueryRow(query, product.Name, product.Price, product.Description).Scan(&id)
+
 	if err != nil {
 		return 0, err
 	}
-
-	return 0, nil
+	return id, nil
 }
 
 func (p *ProductRepositoryPostgres) GetProductByID() {

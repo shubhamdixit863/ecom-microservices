@@ -26,7 +26,7 @@ func (s *Server) Start() {
 
 	conn := sqlx.MustConnect(
 		"postgres",
-		"postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
+		s.config.DBUrl,
 	) // Dependency injection
 	productPostGresRepos := repository.NewProductRepositoryPostgres(conn)
 	productSvc := services.NewProductService(productPostGresRepos)
