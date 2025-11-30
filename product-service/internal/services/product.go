@@ -60,3 +60,25 @@ func (s *ProductService) GetProductByID(id int64)(dto.ProductResponse, error){
 	}
 	return productRes, nil
 }
+
+func (s *ProductService) UpdateProduct(id int64, update dto.ProductRequest)error{
+	product := models.Product{
+		Name: update.Name,
+		Price: update.Price,
+		Description: update.Description,
+	}
+
+	err := s.productRepository.UpdateProduct(id, product)
+	if err != nil{
+		return err
+	}
+	return nil
+}
+
+func (s *ProductService) DeleteProduct(id int64)error{
+	err := s.productRepository.DeleteProduct(id)
+	if err != nil{
+		return err
+	}
+	return nil
+}
