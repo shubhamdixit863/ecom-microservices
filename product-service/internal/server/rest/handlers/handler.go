@@ -21,9 +21,16 @@ func NewProductHandler(productService *services.ProductService) *ProductHandler 
 }
 
 func (handler *ProductHandler) GetProducts(c *gin.Context) {
-	// Return JSON response
+	products, err := handler.productService.GetProducts()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{
-		"message": "all products here",
+		"data":  products,
+		"count": len(products),
 	})
 }
 
@@ -33,9 +40,17 @@ func (handler *ProductHandler) GetProductByID(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "invalid id",
 		})
+		return
+	}
+	product, err := handler.productService.GetProductByID(int64(id))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"message": fmt.Sprintf("product with id: %d", id),
+		"data": product,
 	})
 }
 
