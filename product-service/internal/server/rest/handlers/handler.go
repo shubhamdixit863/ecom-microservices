@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 	"product-service/internal/dto"
 	"product-service/internal/services"
@@ -21,9 +20,16 @@ func NewProductHandler(productService *services.ProductService) *ProductHandler 
 }
 
 func (handler *ProductHandler) GetProducts(c *gin.Context) {
-	// Return JSON response
+	products, err := handler.productService.GetProducts()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{
-		"message": "all products here",
+		"data":  products,
+		"count": len(products),
 	})
 }
 
@@ -33,9 +39,17 @@ func (handler *ProductHandler) GetProductByID(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "invalid id",
 		})
+		return
+	}
+	product, err := handler.productService.GetProductByID(int64(id))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"message": fmt.Sprintf("product with id: %d", id),
+		"data": product,
 	})
 }
 
@@ -76,9 +90,28 @@ func (handler *ProductHandler) UpdateProduct(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "invalid id",
 		})
+		return
 	}
+
+	var update dto.ProductRequest
+	err = c.BindJSON(&update)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid request body",
+		})
+		return
+	}
+
+	err = handler.productService.UpdateProduct(int64(id), update)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"message": fmt.Sprintf("product %d updated", id),
+		"message": "product updated successfully",
 	})
 }
 
@@ -88,9 +121,19 @@ func (handler *ProductHandler) DeleteProduct(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "invalid id",
 		})
+		return
 	}
+
+	err = handler.productService.DeleteProduct(int64(id))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"message": fmt.Sprintf("product %d deleted", id),
+		"message": "product deleted successfully",
 	})
 
 }
