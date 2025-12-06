@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: my-mongo
+    restart: unless-stopped
+    command: ["mongod", "--bind_ip_all", "--auth", "false", "--noauth"]
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
