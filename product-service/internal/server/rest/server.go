@@ -2,34 +2,27 @@ package rest
 
 import (
 	"log"
-	"product-service/internal/config"
 	"product-service/internal/repository"
 	"product-service/internal/server/rest/handlers"
 	"product-service/internal/services"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
 
 type Server struct {
-	config config.Config
+	productRepo repository.ProductRepository
 }
 
-func NewServer(config config.Config) *Server {
+func NewServer(productRepo repository.ProductRepository) *Server {
 	return &Server{
-		config: config,
+		productRepo,
 	}
 }
 
 func (s *Server) Start() {
 
-	conn := sqlx.MustConnect(
-		"postgres",
-		s.config.DBUrl,
-	) // Dependency injection
-	productPostGresRepos := repository.NewProductRepositoryPostgres(conn)
-	productSvc := services.NewProductService(productPostGresRepos)
+	productSvc := services.NewProductService(s.productRepo)
 	productHandler := handlers.NewProductHandler(productSvc)
 
 	// Create a Gin router with default middleware (logger and recovery)
@@ -48,7 +41,7 @@ func (s *Server) Start() {
 
 	// Start server on port 8080 (default)
 	// Server will listen on 0.0.0.0:8080 (localhost:8080 on Windows)
-	if err := r.Run(s.config.Port); err != nil {
+	if err := r.Run(":8092"); err != nil {
 		log.Fatalf("failed to run server: %v", err)
 	}
 
