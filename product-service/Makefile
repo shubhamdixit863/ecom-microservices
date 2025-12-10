@@ -11,12 +11,18 @@ proto:
 	@echo "Generating productservice.proto..."
 	protoc --go_out=. --go_opt=paths=source_relative \
 		--go-grpc_out=. --go-grpc_opt=paths=source_relative \
-		internal/server/grpc/productservice.proto
+		internal/server/grpc/v1/productservice.proto
 
 	@echo "Protobuf files generated successfully!"
 
 # Clean generated protobuf files
 proto-clean:
 	@echo "Cleaning generated protobuf files..."
-	find internal/server/grpc -name "*.pb.go" -type f -delete
+	find internal/server/grpc/v1 -name "*.pb.go" -type f -delete
 	@echo "Cleaned!"
+
+proto-deps:
+	@echo "Installing protobuf dependencies..."
+	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	@echo "✓ Dependencies installed"
