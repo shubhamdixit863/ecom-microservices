@@ -16,14 +16,10 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file from parent directory")
 	}
-
 	dbUrl := os.Getenv("DATABASE_URL")
+	dbName := os.Getenv("MONGO_DB")
 
-	// Instantiate the server object
-	cnf := config.Config{
-		Port:  ":8090",
-		DBUrl: dbUrl,
-	}
+	cnf := config.NewConfig(":8090", dbUrl, dbName)
 	s := rest.NewServer(cnf)
 	s.Start()
 

@@ -6,8 +6,10 @@ type Config struct {
 	DbName string
 }
 
-// loading it from the env
-
-func NewConfig() {
-	// read it from enev
+func NewConfig(port string, dbUrl string, dbName string) *Config {
+	return &Config{
+		Port:   port,
+		DBUrl:  dbUrl,
+		DbName: dbName,
+	}
 }
