@@ -2,17 +2,16 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v6.33.1
-// source: internal/server/grpc/productservice.proto
+// source: internal/client/proto/v1/product_client.proto
 
-package proto
+package v1
 
 import (
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
-
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -31,7 +30,7 @@ type ProductRequest struct {
 
 func (x *ProductRequest) Reset() {
 	*x = ProductRequest{}
-	mi := &file_internal_server_grpc_productservice_proto_msgTypes[0]
+	mi := &file_internal_client_proto_v1_product_client_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -43,7 +42,7 @@ func (x *ProductRequest) String() string {
 func (*ProductRequest) ProtoMessage() {}
 
 func (x *ProductRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_internal_server_grpc_productservice_proto_msgTypes[0]
+	mi := &file_internal_client_proto_v1_product_client_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -56,7 +55,7 @@ func (x *ProductRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProductRequest.ProtoReflect.Descriptor instead.
 func (*ProductRequest) Descriptor() ([]byte, []int) {
-	return file_internal_server_grpc_productservice_proto_rawDescGZIP(), []int{0}
+	return file_internal_client_proto_v1_product_client_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *ProductRequest) GetProductId() int64 {
@@ -76,7 +75,7 @@ type ProductResponse struct {
 
 func (x *ProductResponse) Reset() {
 	*x = ProductResponse{}
-	mi := &file_internal_server_grpc_productservice_proto_msgTypes[1]
+	mi := &file_internal_client_proto_v1_product_client_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -88,7 +87,7 @@ func (x *ProductResponse) String() string {
 func (*ProductResponse) ProtoMessage() {}
 
 func (x *ProductResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_internal_server_grpc_productservice_proto_msgTypes[1]
+	mi := &file_internal_client_proto_v1_product_client_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -101,7 +100,7 @@ func (x *ProductResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProductResponse.ProtoReflect.Descriptor instead.
 func (*ProductResponse) Descriptor() ([]byte, []int) {
-	return file_internal_server_grpc_productservice_proto_rawDescGZIP(), []int{1}
+	return file_internal_client_proto_v1_product_client_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ProductResponse) GetProductId() int64 {
@@ -118,41 +117,41 @@ func (x *ProductResponse) GetProductName() string {
 	return ""
 }
 
-var File_internal_server_grpc_productservice_proto protoreflect.FileDescriptor
+var File_internal_client_proto_v1_product_client_proto protoreflect.FileDescriptor
 
-const file_internal_server_grpc_productservice_proto_rawDesc = "" +
+const file_internal_client_proto_v1_product_client_proto_rawDesc = "" +
 	"\n" +
-	")internal/server/grpc/productservice.proto\x12\aproduct\"/\n" +
+	"-internal/client/proto/v1/product_client.proto\x12\x05order\"/\n" +
 	"\x0eProductRequest\x12\x1d\n" +
 	"\n" +
 	"product_id\x18\x01 \x01(\x03R\tproductId\"S\n" +
 	"\x0fProductResponse\x12\x1d\n" +
 	"\n" +
 	"product_id\x18\x01 \x01(\x03R\tproductId\x12!\n" +
-	"\fproduct_name\x18\x02 \x01(\tR\vproductName2U\n" +
-	"\x0eProductService\x12C\n" +
-	"\x0eGetProductById\x12\x17.product.ProductRequest\x1a\x18.product.ProductResponseB>Z<github.com/ecom-monorep/product-service/internal/server/grpcb\x06proto3"
+	"\fproduct_name\x18\x02 \x01(\tR\vproductName2Q\n" +
+	"\x0eProductService\x12?\n" +
+	"\x0eGetProductById\x12\x15.order.ProductRequest\x1a\x16.order.ProductResponseB@Z>github.com/ecom-monorep/order-service/internal/client/proto/v1b\x06proto3"
 
 var (
-	file_internal_server_grpc_productservice_proto_rawDescOnce sync.Once
-	file_internal_server_grpc_productservice_proto_rawDescData []byte
+	file_internal_client_proto_v1_product_client_proto_rawDescOnce sync.Once
+	file_internal_client_proto_v1_product_client_proto_rawDescData []byte
 )
 
-func file_internal_server_grpc_productservice_proto_rawDescGZIP() []byte {
-	file_internal_server_grpc_productservice_proto_rawDescOnce.Do(func() {
-		file_internal_server_grpc_productservice_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_internal_server_grpc_productservice_proto_rawDesc), len(file_internal_server_grpc_productservice_proto_rawDesc)))
+func file_internal_client_proto_v1_product_client_proto_rawDescGZIP() []byte {
+	file_internal_client_proto_v1_product_client_proto_rawDescOnce.Do(func() {
+		file_internal_client_proto_v1_product_client_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_internal_client_proto_v1_product_client_proto_rawDesc), len(file_internal_client_proto_v1_product_client_proto_rawDesc)))
 	})
-	return file_internal_server_grpc_productservice_proto_rawDescData
+	return file_internal_client_proto_v1_product_client_proto_rawDescData
 }
 
-var file_internal_server_grpc_productservice_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_internal_server_grpc_productservice_proto_goTypes = []any{
-	(*ProductRequest)(nil),  // 0: product.ProductRequest
-	(*ProductResponse)(nil), // 1: product.ProductResponse
+var file_internal_client_proto_v1_product_client_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_internal_client_proto_v1_product_client_proto_goTypes = []any{
+	(*ProductRequest)(nil),  // 0: order.ProductRequest
+	(*ProductResponse)(nil), // 1: order.ProductResponse
 }
-var file_internal_server_grpc_productservice_proto_depIdxs = []int32{
-	0, // 0: product.ProductService.GetProductById:input_type -> product.ProductRequest
-	1, // 1: product.ProductService.GetProductById:output_type -> product.ProductResponse
+var file_internal_client_proto_v1_product_client_proto_depIdxs = []int32{
+	0, // 0: order.ProductService.GetProductById:input_type -> order.ProductRequest
+	1, // 1: order.ProductService.GetProductById:output_type -> order.ProductResponse
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -160,26 +159,26 @@ var file_internal_server_grpc_productservice_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_internal_server_grpc_productservice_proto_init() }
-func file_internal_server_grpc_productservice_proto_init() {
-	if File_internal_server_grpc_productservice_proto != nil {
+func init() { file_internal_client_proto_v1_product_client_proto_init() }
+func file_internal_client_proto_v1_product_client_proto_init() {
+	if File_internal_client_proto_v1_product_client_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_internal_server_grpc_productservice_proto_rawDesc), len(file_internal_server_grpc_productservice_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_internal_client_proto_v1_product_client_proto_rawDesc), len(file_internal_client_proto_v1_product_client_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_internal_server_grpc_productservice_proto_goTypes,
-		DependencyIndexes: file_internal_server_grpc_productservice_proto_depIdxs,
-		MessageInfos:      file_internal_server_grpc_productservice_proto_msgTypes,
+		GoTypes:           file_internal_client_proto_v1_product_client_proto_goTypes,
+		DependencyIndexes: file_internal_client_proto_v1_product_client_proto_depIdxs,
+		MessageInfos:      file_internal_client_proto_v1_product_client_proto_msgTypes,
 	}.Build()
-	File_internal_server_grpc_productservice_proto = out.File
-	file_internal_server_grpc_productservice_proto_goTypes = nil
-	file_internal_server_grpc_productservice_proto_depIdxs = nil
+	File_internal_client_proto_v1_product_client_proto = out.File
+	file_internal_client_proto_v1_product_client_proto_goTypes = nil
+	file_internal_client_proto_v1_product_client_proto_depIdxs = nil
 }
