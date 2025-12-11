@@ -2,13 +2,12 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.0
 // - protoc             v6.33.1
-// source: internal/server/grpc/productservice.proto
+// source: internal/client/proto/v1/product_client.proto
 
-package proto
+package v1
 
 import (
 	context "context"
-
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -20,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ProductService_GetProductById_FullMethodName = "/product.ProductService/GetProductById"
+	ProductService_GetProductById_FullMethodName = "/order.ProductService/GetProductById"
 )
 
 // ProductServiceClient is the client API for ProductService service.
@@ -109,7 +108,7 @@ func _ProductService_GetProductById_Handler(srv interface{}, ctx context.Context
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ProductService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "product.ProductService",
+	ServiceName: "order.ProductService",
 	HandlerType: (*ProductServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -118,5 +117,5 @@ var ProductService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "internal/server/grpc/productservice.proto",
+	Metadata: "internal/client/proto/v1/product_client.proto",
 }

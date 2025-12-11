@@ -1,7 +1,7 @@
 package client
 
 import (
-	productServiceGrpc "order-service/internal/client/proto"
+	productServiceGrpc "order-service/internal/client/proto/v1"
 
 	"google.golang.org/grpc"
 )
@@ -11,4 +11,5 @@ type ProductGrpcClient struct {
 	productclient productServiceGrpc.ProductServiceClient
 }
 
-// you can write amethiod invoke the server
+// you can write a method invoke the server
+
