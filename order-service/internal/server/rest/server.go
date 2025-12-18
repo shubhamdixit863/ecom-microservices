@@ -1,23 +1,21 @@
 package rest
 
 import (
-	"context"
 	"log"
 	"order-service/internal/config"
 	"order-service/internal/repository"
 	"order-service/internal/server/rest/handlers"
-	"order-service/internal/services"
 
 	"github.com/gin-gonic/gin"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 type Server struct {
-	config *config.Config
+	config config.Config
 }
 
-func NewServer(config *config.Config) *Server {
+func NewServer(config config.Config) *Server {
 	return &Server{
 		config: config,
 	}
@@ -25,32 +23,25 @@ func NewServer(config *config.Config) *Server {
 
 func (s *Server) Start() {
 
-	ctx := context.Background()
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(s.config.DBUrl))
-	if err != nil {
-		log.Fatalf("failed to connect to mongoDB: %v", err)
-	}
-
-	err = client.Ping(ctx, nil)
-	if err != nil {
-		log.Fatalf("Failed to ping MongoDB: %v", err)
-	}
-
-	log.Println("Successfully connected to MongoDB")
-
-	// Get database
-	db := client.Database(s.config.DbName)
-
-	orderRepo := repository.NewOrderRepositoryMongo(db)
-	ordersvc := services.NewOrderService(orderRepo)
-	orderHandler := handlers.NewOrderHandler(ordersvc)
-
 	r := gin.Default()
-	orderRoutes := r.Group("/orders")
+	// load it from env by calling the helper method
+	cfg := config.Config{
+		DbName: "somedb",
+	}
 
-	orderRoutes.POST("/create", orderHandler.CreateOrder)
-	orderRoutes.GET("/get-order/:id", orderHandler.GetOrder)
-	orderRoutes.DELETE("/delete/:id", orderHandler.DeleteOrder)
+	// put it into a helper function
+	client, err := mongo.Connect(options.Client().ApplyURI("mongodb://localhost:27017"))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	repository.NewOrderRepositoryMongo(client, cfg)
+	// Add order service
+	orderHandler := handlers.NewOrderHandler()
+	// create delete and get
+	orderRoutes := r.Group("/orders", orderHandler.CreateOrder)
+	// Create a db connection
+	orderRoutes.POST("/")
 
 	// Start server on port 8080 (default)
 	// Server will listen on 0.0.0.0:8080 (localhost:8080 on Windows)
