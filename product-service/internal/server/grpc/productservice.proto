@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package product;
 
-option go_package = "github.com/ecom-monorep/product-service/internal/server/grpc/v1";
+option go_package = "github.com/ecom-monorep/product-service/internal/server/grpc";
 
 service ProductService{
     rpc GetProductById(  ProductRequest) returns (  ProductResponse);
