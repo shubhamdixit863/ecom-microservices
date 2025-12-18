@@ -13,7 +13,7 @@ import (
 func main() {
 
 	// Load .env from parent directory
-	err := godotenv.Load("../.env")
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatal("Error loading .env file from parent directory")
 	}

@@ -1,4 +1,4 @@
-package services
+package handler
 
 import (
 	"context"
@@ -10,16 +10,18 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-type ProductGRPCService struct {
+type ProductGRPCHandler struct {
 	productRepository repository.ProductRepository
 	v1.UnimplementedProductServiceServer
 }
 
-func NewProductGRPCService(productRepository repository.ProductRepository) *ProductGRPCService {
-	return &ProductGRPCService{productRepository: productRepository}
+func NewProductGRPCHandler(productRepository repository.ProductRepository) *ProductGRPCHandler {
+	return &ProductGRPCHandler{productRepository: productRepository}
 }
 
-func (s *ProductGRPCService) GetProductById(ctx context.Context, req *v1.ProductRequest) (*v1.ProductResponse, error) {
+func (s *ProductGRPCHandler) GetProductById(ctx context.Context, req *v1.ProductRequest) (*v1.ProductResponse, error) {
+	log.Println("Product Grpc Handler Get Product By Id invoked")
+
 	product, err := s.productRepository.GetProductByID(req.ProductId)
 	if err != nil {
 		log.Printf("Error getting product: %v", err)

@@ -14,6 +14,29 @@ type OrderRepositoryMongo struct {
 	collection *mongo.Collection
 }
 
+func (o *OrderRepositoryMongo) GetOrders() ([]models.Order, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var orders []models.Order
+
+	find, err := o.collection.Find(ctx, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	for find.Next(ctx) {
+		var order models.Order
+		if err := find.Decode(&order); err != nil {
+			return nil, err
+		}
+		orders = append(orders, order)
+	}
+
+	return orders, nil
+
+}
+
 func NewOrderRepositoryMongo(db *mongo.Database) OrderRepository {
 	collection := db.Collection("orders")
 	return &OrderRepositoryMongo{

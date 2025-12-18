@@ -52,6 +52,19 @@ func (p *OrderHandler) GetOrder(c *gin.Context) {
 	})
 }
 
+func (p *OrderHandler) GetOrders(c *gin.Context) {
+	order, err := p.orderService.GetOrders()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"data": order,
+	})
+}
+
 func (p *OrderHandler) DeleteOrder(c *gin.Context) {
 	id := c.Param("id")
 	err := p.orderService.DeleteOrder(id)

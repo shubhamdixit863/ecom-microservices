@@ -3,6 +3,7 @@ package rest
 import (
 	"context"
 	"log"
+	productGrpcClient "order-service/internal/client"
 	"order-service/internal/config"
 	"order-service/internal/repository"
 	"order-service/internal/server/rest/handlers"
@@ -42,13 +43,19 @@ func (s *Server) Start() {
 	db := client.Database(s.config.DbName)
 
 	orderRepo := repository.NewOrderRepositoryMongo(db)
-	ordersvc := services.NewOrderService(orderRepo)
+	productClient, err := productGrpcClient.NewProductClient("localhost:50090")
+	if err != nil {
+		log.Fatal("Error", err)
+		return
+	}
+	ordersvc := services.NewOrderService(orderRepo, productClient)
 	orderHandler := handlers.NewOrderHandler(ordersvc)
 
 	r := gin.Default()
 	orderRoutes := r.Group("/orders")
 
 	orderRoutes.POST("/create", orderHandler.CreateOrder)
+	orderRoutes.GET("/get-order", orderHandler.GetOrders)
 	orderRoutes.GET("/get-order/:id", orderHandler.GetOrder)
 	orderRoutes.DELETE("/delete/:id", orderHandler.DeleteOrder)
 

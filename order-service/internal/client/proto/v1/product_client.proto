@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package order;
+package product;
 
 option go_package = "github.com/ecom-monorep/order-service/internal/client/proto/v1";
 

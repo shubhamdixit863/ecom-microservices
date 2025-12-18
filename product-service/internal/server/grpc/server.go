@@ -5,8 +5,8 @@ import (
 	"net"
 	"product-service/internal/config"
 	"product-service/internal/repository"
+	"product-service/internal/server/grpc/handler"
 	v1 "product-service/internal/server/grpc/v1"
-	"product-service/internal/services"
 
 	"github.com/jmoiron/sqlx"
 	"google.golang.org/grpc"
@@ -33,16 +33,17 @@ func (s *Server) StartGRPC() {
 	// Create gRPC server
 	grpcServer := grpc.NewServer()
 	productPostGresRepos := repository.NewProductRepositoryPostgres(conn)
-	productSvc := services.NewProductGRPCService(productPostGresRepos)
+	productSvc := handler.NewProductGRPCHandler(productPostGresRepos)
 	v1.RegisterProductServiceServer(grpcServer, productSvc)
 	reflection.Register(grpcServer) // Enable gRPC reflection for testing
 
 	// Start gRPC server
+
 	grpcListener, err := net.Listen(s.config.Network, s.config.GrpcAddress)
 	if err != nil {
 		log.Fatalf("Failed to listen on gRPC port: %v", err)
 	}
-	log.Println("Grpc server has been started")
+	log.Println("starting grpc server on", s.config.GrpcAddress)
 	if err := grpcServer.Serve(grpcListener); err != nil {
 		log.Fatalf("Failed to start gRPC server: %v", err)
 	}
