@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 	"product-service/internal/repository"
-	v1 "product-service/internal/server/grpc/v1"
+	v1 "github.com/Joshdike/ecom-microservices/common/proto/v1"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

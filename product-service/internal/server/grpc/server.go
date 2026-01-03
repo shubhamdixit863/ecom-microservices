@@ -6,7 +6,8 @@ import (
 	"product-service/internal/config"
 	"product-service/internal/repository"
 	"product-service/internal/server/grpc/handler"
-	v1 "product-service/internal/server/grpc/v1"
+
+	v1 "github.com/Joshdike/ecom-microservices/common/proto/v1"
 
 	"github.com/jmoiron/sqlx"
 	"google.golang.org/grpc"
